@@ -109,6 +109,7 @@ void listEntries()
   FILE *fp;
   fp = fopen("entries.txt", "rb");
 
+  int i = 1;
   if (fp != NULL)
   {
     while (1)
@@ -119,11 +120,58 @@ void listEntries()
       {
         break;
       }
-      printf("Username: %s Username/email: %s Password: %s Description: %s Url: %s \n", e->name, e->email, e->password, e->description, e->url);
+      printf("Entry %i:", i++);
+      printf("\n\tUsername: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", e->name, e->email, e->password, e->description, e->url);
     }
   }
   fclose(fp);
 }
+
+void deleteEntry()
+{
+  int del;
+
+  listEntries();
+  printf("Select an entry: ");
+  scanf("%d", &del);
+
+  Entry *e;
+  e = (Entry *)malloc(sizeof(Entry));
+
+  FILE *fp;
+  fp = fopen("entries.txt", "rb");
+
+  Entry entries[10];
+
+
+  int index = 0;
+
+  if (fp != NULL)
+  {
+    while (1)
+    {
+
+      fread(e, sizeof(Entry), 1, fp);
+      if (feof(fp))
+      {
+        break;
+      }
+      if (index != del -1){
+        entries[index] = *e;
+      }
+      index++;
+    }
+  }
+  fclose(fp);
+  
+  fp = fopen("entries.txt", "wb");
+  for (int ii = 0; ii < index-1; ii++) {
+    fwrite(&entries[ii], sizeof(Entry), 1, fp);
+    printf("\n\tUsername: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", entries[ii].name, entries[ii].email, entries[ii].password, entries[ii].description, entries[ii].url);
+  }
+  fclose(fp);
+}
+
 
 int main()
 {
@@ -147,7 +195,7 @@ int main()
       createEntry();
       break;
     case 2:
-      //delete()
+      deleteEntry();
       break;
     case 3:
       listEntries();
