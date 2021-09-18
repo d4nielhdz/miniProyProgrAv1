@@ -111,11 +111,15 @@ void listEntries()
 
   if (fp != NULL)
   {
-    while (fread(e, sizeof(Entry), 1, fp) == 1)
+    while (1)
     {
 
       fread(e, sizeof(Entry), 1, fp);
       printf("Username: %s Username/email: %s Password: %s Description: %s Url: %s \n", e->name, e->email, e->password, e->description, e->url);
+      if (feof(fp))
+      {
+        break;
+      }
     }
   }
   fclose(fp);
