@@ -108,6 +108,7 @@ void listEntries()
 
   FILE *fp;
   fp = fopen("entries.txt", "rb");
+  printf("\nEntries:\n");
 
   int i = 1;
   if (fp != NULL)
@@ -120,10 +121,10 @@ void listEntries()
       {
         break;
       }
-      printf("Entry %i:", i++);
-      printf("\n\tUsername: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", e->name, e->email, e->password, e->description, e->url);
+      printf("\tEntry %i: %s \n", i++, e->name);
     }
   }
+  printf("\n");
   fclose(fp);
 }
 
@@ -167,8 +168,46 @@ void deleteEntry()
   fp = fopen("entries.txt", "wb");
   for (int ii = 0; ii < index-1; ii++) {
     fwrite(&entries[ii], sizeof(Entry), 1, fp);
-    printf("\n\tUsername: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", entries[ii].name, entries[ii].email, entries[ii].password, entries[ii].description, entries[ii].url);
+    printf("\nEntry %i deleted! \n", del);
+    // printf("\n\tName: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", entries[ii].name, entries[ii].email, entries[ii].password, entries[ii].description, entries[ii].url);
   }
+  fclose(fp);
+}
+
+void selectEntry()
+{
+
+
+  Entry *e;
+  e = (Entry *)malloc(sizeof(Entry));
+
+  FILE *fp;
+  fp = fopen("entries.txt", "rb");
+
+  int entry;
+  printf("Select an entry: ");
+  scanf("%d", &entry);
+  printf("\nEntry %i:\n", entry);
+  
+
+  int i = 0;
+  if (fp != NULL)
+  {
+    while (1)
+    {
+
+      fread(e, sizeof(Entry), 1, fp);
+      if (feof(fp))
+      {
+        break;
+      }
+      if(i == entry -1){
+        printf("\n\tName: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", e->name, e->email, e->password, e->description, e->url);
+      }
+      i++;
+    }
+  }
+  printf("\n");
   fclose(fp);
 }
 
@@ -199,6 +238,10 @@ int main()
       break;
     case 3:
       listEntries();
+      break;
+    case 4:
+      selectEntry();
+      break;
     }
 
   } while (option != 0);
