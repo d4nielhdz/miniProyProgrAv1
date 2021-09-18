@@ -63,7 +63,7 @@ void createEntry()
   char p[140];
 
   e = (Entry *)malloc(sizeof(Entry));
-  fp = fopen("entries.txt", "wb");
+  fp = fopen("entries.txt", "a+");
 
   //Obligatory field
 
@@ -115,11 +115,11 @@ void listEntries()
     {
 
       fread(e, sizeof(Entry), 1, fp);
-      printf("Username: %s Username/email: %s Password: %s Description: %s Url: %s \n", e->name, e->email, e->password, e->description, e->url);
       if (feof(fp))
       {
         break;
       }
+      printf("Username: %s Username/email: %s Password: %s Description: %s Url: %s \n", e->name, e->email, e->password, e->description, e->url);
     }
   }
   fclose(fp);
