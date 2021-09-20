@@ -134,6 +134,7 @@ void deleteEntry()
   listEntries();
   printf("Select an entry: ");
   scanf("%d", &del);
+  del--;
 
   Entry *e;
   e = (Entry *)malloc(sizeof(Entry));
@@ -155,7 +156,7 @@ void deleteEntry()
       {
         break;
       }
-      if (index != del - 1)
+      if (index != del)
       {
         entries[index] = *e;
       }
