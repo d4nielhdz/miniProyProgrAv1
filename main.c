@@ -65,21 +65,15 @@ void createEntry()
   e = (Entry *)malloc(sizeof(Entry));
   fp = fopen("entries.txt", "a+");
 
-  //Obligatory field
-
   printf("Enter name\n");
   scanf("%s", p);
   strcpy(e->name, p);
   fflush(stdin);
 
-  //Obligatory field
-
   printf("Enter username/email\n");
   scanf("%s", p);
   strcpy(e->email, p);
   fflush(stdin);
-
-  //Obligatory field
 
   do
   {
@@ -93,10 +87,8 @@ void createEntry()
     fflush(stdin);
   } while (strcmp(pp, p) != 0);
 
-  //Must fix optinal sections
   printf("Enter a description (Press Enter to skip)\n");
   fgets(p, 20, stdin);
-  //printf("Description: %s\n", p);
   strcpy(e->description, p);
 
   printf("Enter a url (Press Enter to skip)\n");
