@@ -61,7 +61,7 @@ void createEntry()
   Entry *e;
   FILE *fp;
   char p[140];
-
+  char pp[140];
   e = (Entry *)malloc(sizeof(Entry));
   fp = fopen("entries.txt", "a+");
 
@@ -81,10 +81,17 @@ void createEntry()
 
   //Obligatory field
 
-  printf("Enter your password\n");
-  scanf("%s", p);
-  fflush(stdin);
-  strcpy(e->password, p);
+  do
+  {
+    printf("Enter your password\n");
+    scanf("%s", p);
+    fflush(stdin);
+    strcpy(e->password, p);
+
+    printf("Reenter your password\n");
+    scanf("%s", pp);
+    fflush(stdin);
+  } while (strcmp(pp, p) != 0);
 
   //Must fix optinal sections
   printf("Enter a description (Press Enter to skip)\n");
@@ -144,7 +151,6 @@ void deleteEntry()
 
   Entry entries[10];
 
-
   int index = 0;
 
   if (fp != NULL)
@@ -157,16 +163,18 @@ void deleteEntry()
       {
         break;
       }
-      if (index != del -1){
+      if (index != del - 1)
+      {
         entries[index] = *e;
       }
       index++;
     }
   }
   fclose(fp);
-  
+
   fp = fopen("entries.txt", "wb");
-  for (int ii = 0; ii < index-1; ii++) {
+  for (int ii = 0; ii < index - 1; ii++)
+  {
     fwrite(&entries[ii], sizeof(Entry), 1, fp);
     printf("\nEntry %i deleted! \n", del);
     // printf("\n\tName: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", entries[ii].name, entries[ii].email, entries[ii].password, entries[ii].description, entries[ii].url);
@@ -176,7 +184,6 @@ void deleteEntry()
 
 void selectEntry()
 {
-
 
   Entry *e;
   e = (Entry *)malloc(sizeof(Entry));
@@ -188,7 +195,6 @@ void selectEntry()
   printf("Select an entry: ");
   scanf("%d", &entry);
   printf("\nEntry %i:\n", entry);
-  
 
   int i = 0;
   if (fp != NULL)
@@ -201,7 +207,8 @@ void selectEntry()
       {
         break;
       }
-      if(i == entry -1){
+      if (i == entry - 1)
+      {
         printf("\n\tName: %s \n\tUsername/email: %s \n\tPassword: %s \n\tDescription: %s \tUrl: %s \n", e->name, e->email, e->password, e->description, e->url);
       }
       i++;
@@ -211,10 +218,12 @@ void selectEntry()
   fclose(fp);
 }
 
-
 int main()
 {
-  int authRes = authenticate();
+  do
+  {
+    printf("PLEASE AUTHENTICATE OR FACE THE CONSEQUENCES\n");
+  } while (authenticate() != 0);
   int option;
 
   do
